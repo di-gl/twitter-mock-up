@@ -1,4 +1,4 @@
 package com.example.twittermockup.service;
 
-public interface AddPostReplyServiceImpl {
+public class AddPostReplyServiceImpl {
 }

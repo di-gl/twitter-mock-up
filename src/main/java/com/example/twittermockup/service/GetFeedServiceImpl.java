@@ -1,4 +1,4 @@
 package com.example.twittermockup.service;
 
-public interface GetFeedServiceImpl {
+public class GetFeedServiceImpl {
 }

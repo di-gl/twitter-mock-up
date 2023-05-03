@@ -1,4 +1,4 @@
 package com.example.twittermockup.service;
 
-public class GetOwnPostService {
+public interface GetOwnPostService {
 }
