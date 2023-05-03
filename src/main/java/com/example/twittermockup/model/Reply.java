@@ -1,6 +1,7 @@
 package com.example.twittermockup.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Reply {
     private int replyId;
@@ -8,6 +9,7 @@ public class Reply {
     private String replyContent;
     private Post replyPost;
     private boolean isPublic;
+    private ArrayList<Reply> replyReplies;
 
     public int getReplyId() {
         return replyId;
@@ -57,6 +59,7 @@ public class Reply {
                 ", replyContent='" + replyContent + '\'' +
                 ", replyPost=" + replyPost +
                 ", isPublic=" + isPublic +
+                ", replyReplies=" + replyReplies +
                 '}';
     }
 }

@@ -1,13 +1,14 @@
 package com.example.twittermockup.model;
 
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class Post {
     private int postId;
     private LocalDate publishedDate;
     private String postContent;
-    private User postCreator;
+    private int numberOfLikes;
+    private ArrayList<Reply> postReplies;
 
     public int getPostId() {
         return postId;
@@ -33,12 +34,20 @@ public class Post {
         this.postContent = postContent;
     }
 
-    public User getPostCreator() {
-        return postCreator;
+    public int getNumberOfLikes() {
+        return numberOfLikes;
     }
 
-    public void setPostCreator(User postCreator) {
-        this.postCreator = postCreator;
+    public void setNumberOfLikes(int numberOfLikes) {
+        this.numberOfLikes = numberOfLikes;
+    }
+
+    public ArrayList<Reply> getPostReplies() {
+        return postReplies;
+    }
+
+    public void setPostReplies(ArrayList<Reply> postReplies) {
+        this.postReplies = postReplies;
     }
 
     @Override
@@ -47,7 +56,8 @@ public class Post {
                 "postId=" + postId +
                 ", publishedDate=" + publishedDate +
                 ", postContent='" + postContent + '\'' +
-                ", postCreator=" + postCreator +
+                ", numberOfLikes=" + numberOfLikes +
+                ", postReplies=" + postReplies +
                 '}';
     }
 }

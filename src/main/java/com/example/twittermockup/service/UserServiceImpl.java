@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
         userRepository.updateUser(id, user);
     }
 
-
     public void patchUser(Integer id, Map<String, String> partialUser) {
         User user = userRepository.getUserById(id);
         userUtil.patchUser(user, partialUser);

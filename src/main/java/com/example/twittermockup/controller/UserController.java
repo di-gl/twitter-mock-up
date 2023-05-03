@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
 public class UserController {
 
@@ -20,7 +21,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_XML_VALUE)
+    @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
