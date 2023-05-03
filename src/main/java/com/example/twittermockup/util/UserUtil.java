@@ -9,6 +9,7 @@ import java.util.Map;
 public class UserUtil {
 
     public void patchUser(User user, Map<String, String> partialUser) {
+        String username = partialUser.get("username");
         String firstName = partialUser.get("firstName");
         String lastName = partialUser.get("lastName");
         String email = partialUser.get("email");
