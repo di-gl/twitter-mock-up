@@ -8,7 +8,6 @@ public class TwitterMockUpApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TwitterMockUpApplication.class, args);
-		System.out.println("Hello World!");
 	}
 
 }
