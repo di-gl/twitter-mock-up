@@ -1,14 +1,16 @@
 package com.example.twittermockup.model;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+@Component
 public class Post {
     private int postId;
     private LocalDate publishedDate;
     private String postContent;
     private int numberOfLikes;
-    private ArrayList<Reply> postReplies;
+    private User postAuthor;
 
     public int getPostId() {
         return postId;
@@ -42,12 +44,12 @@ public class Post {
         this.numberOfLikes = numberOfLikes;
     }
 
-    public ArrayList<Reply> getPostReplies() {
-        return postReplies;
+    public User getPostAuthor() {
+        return postAuthor;
     }
 
-    public void setPostReplies(ArrayList<Reply> postReplies) {
-        this.postReplies = postReplies;
+    public void setPostAuthor(User postAuthor) {
+        this.postAuthor = postAuthor;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class Post {
                 ", publishedDate=" + publishedDate +
                 ", postContent='" + postContent + '\'' +
                 ", numberOfLikes=" + numberOfLikes +
-                ", postReplies=" + postReplies +
+                ", postAuthor=" + postAuthor +
                 '}';
     }
 }

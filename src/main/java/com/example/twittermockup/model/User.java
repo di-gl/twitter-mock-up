@@ -1,17 +1,17 @@
 package com.example.twittermockup.model;
 
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
-
+@Component
 public class User {
-
     private int userId;
     private String username;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private ArrayList<Post> posts;
 
     public int getUserId() {
         return userId;
@@ -61,14 +61,6 @@ public class User {
         this.password = password;
     }
 
-    public ArrayList<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(ArrayList<Post> posts) {
-        this.posts = posts;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -78,7 +70,6 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", posts=" + posts +
                 '}';
     }
 }

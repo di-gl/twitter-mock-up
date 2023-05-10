@@ -1,15 +1,17 @@
 package com.example.twittermockup.model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
+@Component
 public class Reply {
     private int replyId;
     private LocalDate publishedReplyDate;
     private String replyContent;
-    private Post replyPost;
+    private Post repliedPost;
     private boolean isPublic;
-    private ArrayList<Reply> replyReplies;
+    private User replyAuthor;
 
     public int getReplyId() {
         return replyId;
@@ -35,12 +37,12 @@ public class Reply {
         this.replyContent = replyContent;
     }
 
-    public Post getReplyPost() {
-        return replyPost;
+    public Post getRepliedPost() {
+        return repliedPost;
     }
 
-    public void setReplyPost(Post replyPost) {
-        this.replyPost = replyPost;
+    public void setRepliedPost(Post repliedPost) {
+        this.repliedPost = repliedPost;
     }
 
     public boolean isPublic() {
@@ -51,15 +53,23 @@ public class Reply {
         isPublic = aPublic;
     }
 
+    public User getReplyAuthor() {
+        return replyAuthor;
+    }
+
+    public void setReplyAuthor(User replyAuthor) {
+        this.replyAuthor = replyAuthor;
+    }
+
     @Override
     public String toString() {
         return "Reply{" +
                 "replyId=" + replyId +
                 ", publishedReplyDate=" + publishedReplyDate +
                 ", replyContent='" + replyContent + '\'' +
-                ", replyPost=" + replyPost +
+                ", repliedPost=" + repliedPost +
                 ", isPublic=" + isPublic +
-                ", replyReplies=" + replyReplies +
+                ", replyAuthor=" + replyAuthor +
                 '}';
     }
 }
