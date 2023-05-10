@@ -2,6 +2,8 @@ package com.example.twittermockup.repository;
 
 import com.example.twittermockup.advice.exception.PostNotFoundException;
 import com.example.twittermockup.model.Post;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -24,7 +26,8 @@ public class PostRepository {
         posts.put(index, post);
         index++;
     }
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     public void updatePost(Integer id, Post post) {
         getPostById(id);
         post.setPostId(id);

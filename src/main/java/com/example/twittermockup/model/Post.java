@@ -1,13 +1,18 @@
 package com.example.twittermockup.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 @Component
 public class Post {
     private int postId;
-    private LocalDate publishedDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime publishedDate;
     private String postContent;
     private int numberOfLikes;
     private User postAuthor;
@@ -20,11 +25,11 @@ public class Post {
         this.postId = postId;
     }
 
-    public LocalDate getPublishedDate() {
+    public LocalDateTime getPublishedDate() {
         return publishedDate;
     }
 
-    public void setPublishedDate(LocalDate publishedDate) {
+    public void setPublishedDate(LocalDateTime publishedDate) {
         this.publishedDate = publishedDate;
     }
 
