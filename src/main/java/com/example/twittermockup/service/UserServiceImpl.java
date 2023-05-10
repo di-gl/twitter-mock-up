@@ -1,5 +1,7 @@
 package com.example.twittermockup.service;
 
+import com.example.twittermockup.advice.exception.UserAlreadyExistsException;
+import com.example.twittermockup.advice.exception.UserNotFoundException;
 import com.example.twittermockup.model.User;
 import com.example.twittermockup.repository.UserRepository;
 import com.example.twittermockup.util.UserUtil;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -45,5 +48,33 @@ public class UserServiceImpl implements UserService {
 
     public void deleteUser(Integer id) {
         userRepository.deleteUser(id);
+    }
+
+    @Override
+    public User searchUser(String searchedString) {
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getUsername().equals(searchedString) || user.getFirstName().equals(searchedString) || user.getLastName().equals(searchedString)) {
+                return user;
+            }
+        }
+        throw new UserNotFoundException(String.format("User with \"%s\" as username, first name or last name was not found", searchedString));
+    }
+
+    @Override
+    public void registerUser(String username, String firstName, String lastName, String email, String password) {
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                throw new UserAlreadyExistsException(String.format("User with username \"%s\" is already registered", username));
+            }
+        }
+        User registeringUser = new User();
+        registeringUser.setUsername(username);
+        registeringUser.setFirstName(firstName);
+        registeringUser.setLastName(lastName);
+        registeringUser.setEmail(email);
+        registeringUser.setPassword(password);
+        registerUser(registeringUser);
     }
 }

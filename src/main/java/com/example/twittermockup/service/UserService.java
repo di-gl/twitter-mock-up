@@ -18,4 +18,7 @@ public interface UserService {
     void patchUser(Integer id, Map<String, String> partialUser);
 
     void deleteUser(Integer id);
+    User searchUser(String searchedString);
+    void registerUser(String username, String firstName, String lastName, String email, String password);
+
 }
