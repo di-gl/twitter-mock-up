@@ -12,32 +12,31 @@ import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository {
-
-    private Map<Integer, User> USERS = new HashMap<>();
+    private Map<Integer, User> users = new HashMap<>();
     private Integer index = 0;
 
     public List<User> getAllUsers() {
-        return USERS.values().stream().collect(Collectors.toList());
+        return users.values().stream().collect(Collectors.toList());
     }
 
     public void createUser(User user) {
         user.setUserId(index);
-        USERS.put(index, user);
+        users.put(index, user);
         index++;
     }
 
     public void updateUser(Integer id, User user) {
         getUserById(id);
         user.setUserId(id);
-        USERS.put(id, user);
+        users.put(id, user);
     }
 
     public void deleteUser(int id) {
-        USERS.remove(id);
+        users.remove(id);
     }
 
     public User getUserById(Integer id) {
-        User user = USERS.get(id);
+        User user = users.get(id);
         if (Objects.isNull(user)) {
             throw new UserNotFoundException(String.format("User with id %s was not found", id));
         }
