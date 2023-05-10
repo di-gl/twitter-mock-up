@@ -16,28 +16,23 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
-    @Override
-    public List<Post> getAllPost() {
+    public List<Post> getAllPosts() {
         return postRepository.getAllPosts();
     }
 
-    @Override
     public Post getPostById(Integer id) {
         return postRepository.getPostById(id);
     }
 
-    @Override
     public void registerPost(Post post) {
         postRepository.createPost(post);
     }
 
-    @Override
     public void updatePost(Integer id, Post post) {
         postRepository.updatePost(id, post);
     }
 
-    @Override
-    public void delete(Integer id) {
+    public void deletePost(Integer id) {
         postRepository.deletePost(id);
     }
 }
