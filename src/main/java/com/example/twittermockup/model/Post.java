@@ -14,7 +14,6 @@ public class Post {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedDate;
     private String postContent;
-    private int numberOfLikes;
     private User postAuthor;
 
     public int getPostId() {
@@ -41,14 +40,6 @@ public class Post {
         this.postContent = postContent;
     }
 
-    public int getNumberOfLikes() {
-        return numberOfLikes;
-    }
-
-    public void setNumberOfLikes(int numberOfLikes) {
-        this.numberOfLikes = numberOfLikes;
-    }
-
     public User getPostAuthor() {
         return postAuthor;
     }
@@ -63,7 +54,6 @@ public class Post {
                 "postId=" + postId +
                 ", publishedDate=" + publishedDate +
                 ", postContent='" + postContent + '\'' +
-                ", numberOfLikes=" + numberOfLikes +
                 ", postAuthor=" + postAuthor +
                 '}';
     }
