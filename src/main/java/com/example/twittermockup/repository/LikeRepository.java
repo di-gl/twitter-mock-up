@@ -25,10 +25,6 @@ public class LikeRepository {
         index++;
     }
 
-    public void updateLike(Integer id, Like like) {
-
-    }
-
     public void deleteLike(Integer id) {
         likes.remove(id);
     }
