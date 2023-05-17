@@ -8,6 +8,7 @@ import com.example.twittermockup.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,8 +33,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUserById(id);
     }
 
-    public void registerUser(User user) {
-        userRepository.createUser(user);
+    @Override
+    public void registerUser(User registeringUser) {
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getUsername().equals(registeringUser.getUsername())) {
+                throw new UserAlreadyExistsException(String.format("User with username \"%s\" is already registered", registeringUser.getUsername()));
+            }
+        }
+        userRepository.createUser(registeringUser);
     }
 
     public void updateUser(Integer id, User user) {
@@ -51,30 +59,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User searchUser(String searchedString) {
+    public List<User> searchUser(String searchedString) {
         List<User> users = getAllUsers();
+        List<User> usersMatched = new ArrayList<>();
         for (User user : users) {
             if (user.getUsername().equals(searchedString) || user.getFirstName().equals(searchedString) || user.getLastName().equals(searchedString)) {
-                return user;
+                usersMatched.add(user);
             }
         }
-        throw new UserNotFoundException(String.format("User with \"%s\" as username, first name or last name was not found", searchedString));
+        if (usersMatched.isEmpty()) {
+            throw new UserNotFoundException(String.format("User with \"%s\" as username, first name or last name was not found", searchedString));
+        }
+        return usersMatched;
     }
 
-    @Override
-    public void registerUser(String username, String firstName, String lastName, String email, String password) {
+    public void isRegistered(User user) {
         List<User> users = getAllUsers();
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                throw new UserAlreadyExistsException(String.format("User with username \"%s\" is already registered", username));
-            }
+        if (!users.contains(user)) {
+            throw new UserAlreadyExistsException(String.format("User with username \"%s\" was registered", user.getUsername()));
         }
-        User registeringUser = new User();
-        registeringUser.setUsername(username);
-        registeringUser.setFirstName(firstName);
-        registeringUser.setLastName(lastName);
-        registeringUser.setEmail(email);
-        registeringUser.setPassword(password);
-        registerUser(registeringUser);
+    }
+
+    public void followUser(String username, String usernameToBeFollowed) {
+        userRepository.followUser(userRepository.getUserByUsername(username).getUserId(), userRepository.getUserByUsername(usernameToBeFollowed).getUserId());
+    }
+
+    public List<String> getWhoUserFollows(String username) {
+        List<Integer> usersFollowed = userRepository.getWhoUserFollows(userRepository.getUserByUsername(username).getUserId());
+        List<String> getUsersFollowedByUsername = new ArrayList<>();
+        usersFollowed.forEach(u -> {
+            getUsersFollowedByUsername.add(getUserById(u).getUsername());
+        });
+        return getUsersFollowedByUsername;
     }
 }
