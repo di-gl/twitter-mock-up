@@ -21,7 +21,10 @@ public class PostRepository {
         return posts.values().stream().collect(Collectors.toList());
     }
 
-    public void createPost(Post post) {
+    public void createPost(String username, Post post) {
+        if (!post.getPostAuthor().getUsername().equals(username)) {
+            throw new PostNotFoundException(String.format("Post cannot be created by anyone else but \"%s\"", username));
+        }
         post.setPostId(index);
         posts.put(index, post);
         index++;
