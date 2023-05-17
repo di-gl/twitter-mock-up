@@ -4,15 +4,13 @@ import com.example.twittermockup.advice.exception.UserNotFoundException;
 import com.example.twittermockup.model.User;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository {
     private Map<Integer, User> users = new HashMap<>();
+    private Map<Integer, List<Integer>> whoUsersFollow = new HashMap<>();
     private Integer index = 0;
 
     public List<User> getAllUsers() {
@@ -22,6 +20,7 @@ public class UserRepository {
     public void createUser(User user) {
         user.setUserId(index);
         users.put(index, user);
+        whoUsersFollow.put(index, new ArrayList<>());
         index++;
     }
 
@@ -42,4 +41,25 @@ public class UserRepository {
         }
         return user;
     }
+
+    public void followUser(Integer idUser, Integer idUserToBeFollowed) {
+        if (!whoUsersFollow.get(idUser).contains(idUserToBeFollowed)) {
+            whoUsersFollow.get(idUser).add(idUserToBeFollowed);
+        }
+    }
+
+    public User getUserByUsername(String username) {
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        throw new UserNotFoundException(String.format("User with username \"%s\" doesn't exit", username));
+    }
+
+    public List<Integer> getWhoUserFollows(Integer idUser) {
+        return whoUsersFollow.get(idUser).stream().toList();
+    }
+
 }
