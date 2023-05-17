@@ -1,13 +1,18 @@
 package com.example.twittermockup.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 @Component
 public class Like {
     private int likeId;
-    private Calendar timestamp;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime timestamp;
     private User likeAuthor;
     private Post likedPost;
 
@@ -19,11 +24,11 @@ public class Like {
         this.likeId = likeId;
     }
 
-    public Calendar getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Calendar timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
