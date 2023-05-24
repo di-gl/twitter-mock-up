@@ -1,27 +1,32 @@
 package com.example.twittermockup.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-@Component
+
+@Entity
+@Table(name = "posts")
 public class Post {
-    private int postId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private int id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Column(name = "published_date", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime publishedDate;
+    @Column(name = "content", nullable = false)
     private String postContent;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User postAuthor;
 
     public int getPostId() {
-        return postId;
+        return id;
     }
 
     public void setPostId(int postId) {
-        this.postId = postId;
+        this.id = postId;
     }
 
     public LocalDateTime getPublishedDate() {
@@ -51,7 +56,7 @@ public class Post {
     @Override
     public String toString() {
         return "Post{" +
-                "postId=" + postId +
+                "postId=" + id +
                 ", publishedDate=" + publishedDate +
                 ", postContent='" + postContent + '\'' +
                 ", postAuthor=" + postAuthor +

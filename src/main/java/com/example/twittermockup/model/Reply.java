@@ -1,24 +1,35 @@
 package com.example.twittermockup.model;
 
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-@Component
+@Entity
+@Table(name = "replies")
 public class Reply {
-    private int replyId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private int id;
+    @Column(name = "published_date", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDate publishedReplyDate;
+    @Column(name = "content", nullable = false)
     private String replyContent;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
     private Post repliedPost;
-    private boolean isPublic;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User replyAuthor;
+    @Column(name = "is_public", columnDefinition = "boolean default true")
+    private boolean isPublic = true;
 
     public int getReplyId() {
-        return replyId;
+        return id;
     }
 
     public void setReplyId(int replyId) {
-        this.replyId = replyId;
+        this.id = replyId;
     }
 
     public LocalDate getPublishedReplyDate() {
@@ -45,14 +56,6 @@ public class Reply {
         this.repliedPost = repliedPost;
     }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
-
     public User getReplyAuthor() {
         return replyAuthor;
     }
@@ -61,10 +64,18 @@ public class Reply {
         this.replyAuthor = replyAuthor;
     }
 
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
     @Override
     public String toString() {
         return "Reply{" +
-                "replyId=" + replyId +
+                "replyId=" + id +
                 ", publishedReplyDate=" + publishedReplyDate +
                 ", replyContent='" + replyContent + '\'' +
                 ", repliedPost=" + repliedPost +

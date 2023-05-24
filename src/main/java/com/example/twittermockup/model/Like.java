@@ -1,27 +1,33 @@
 package com.example.twittermockup.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
-@Component
+@Entity
+@Table(name = "likes")
 public class Like {
-    private int likeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private int id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Column(name = "timestamp", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime timestamp;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User likeAuthor;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
     private Post likedPost;
 
     public int getLikeId() {
-        return likeId;
+        return id;
     }
 
     public void setLikeId(int likeId) {
-        this.likeId = likeId;
+        this.id = likeId;
     }
 
     public LocalDateTime getTimestamp() {
@@ -51,7 +57,7 @@ public class Like {
     @Override
     public String toString() {
         return "Like{" +
-                "likeId=" + likeId +
+                "likeId=" + id +
                 ", timestamp=" + timestamp +
                 ", likeAuthor=" + likeAuthor +
                 ", likedPost=" + likedPost +

@@ -1,24 +1,31 @@
 package com.example.twittermockup.model;
 
 
-import org.springframework.stereotype.Component;
+import jakarta.persistence.*;
 
-import java.util.ArrayList;
-@Component
+@Entity
+@Table(name = "users")
 public class User {
-    private int userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private int id;
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
 
     public int getUserId() {
-        return userId;
+        return id;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.id = userId;
     }
 
     public String getUsername() {
@@ -64,7 +71,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userId=" + id +
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
