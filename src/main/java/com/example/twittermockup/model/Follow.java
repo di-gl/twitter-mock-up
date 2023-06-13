@@ -1,11 +1,16 @@
 package com.example.twittermockup.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "followed_users")
 @IdClass(FollowId.class)
+@Getter
+@Setter
 public class Follow {
+
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -15,20 +20,4 @@ public class Follow {
     @ManyToOne
     @JoinColumn(name = "followed_user_id", nullable = false)
     private User followedUser;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getFollowedUser() {
-        return followedUser;
-    }
-
-    public void setFollowedUser(User followedUser) {
-        this.followedUser = followedUser;
-    }
 }
