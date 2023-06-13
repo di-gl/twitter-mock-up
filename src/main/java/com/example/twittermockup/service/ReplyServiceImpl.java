@@ -18,26 +18,26 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public List<Reply> getAllReplies() {
-        return replyRepository.getAllReplies();
+        return replyRepository.findAll();
     }
 
     @Override
     public Reply getReplyById(Integer id) {
-        return replyRepository.getReplyById(id);
+        return replyRepository.getReferenceById(id.toString());
     }
 
     @Override
     public void registerReply(Reply reply) {
-        replyRepository.createReply(reply);
+        replyRepository.save(reply);
     }
 
     @Override
     public void updateReply(Integer id, Reply reply) {
-        replyRepository.updateReply(id, reply);
+        replyRepository.save(reply);
     }
 
     @Override
     public void deleteReply(Integer id) {
-        replyRepository.deleteReply(id);
+        replyRepository.deleteById(id.toString());
     }
 }

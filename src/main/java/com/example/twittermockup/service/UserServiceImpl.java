@@ -2,7 +2,9 @@ package com.example.twittermockup.service;
 
 import com.example.twittermockup.advice.exception.UserAlreadyExistsException;
 import com.example.twittermockup.advice.exception.UserNotFoundException;
+import com.example.twittermockup.model.Follow;
 import com.example.twittermockup.model.User;
+import com.example.twittermockup.repository.FollowedUserRepository;
 import com.example.twittermockup.repository.UserRepository;
 import com.example.twittermockup.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,26 +13,31 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserUtil userUtil;
+    private final FollowedUserRepository followedUserRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserUtil userUtil) {
+    public UserServiceImpl(UserRepository userRepository, UserUtil userUtil, FollowedUserRepository followedUserRepository) {
         this.userRepository = userRepository;
         this.userUtil = userUtil;
+        this.followedUserRepository = followedUserRepository;
     }
 
     public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+        return userRepository.findAll();
     }
 
-    public User getUserById(Integer id) {
-        return userRepository.getUserById(id);
+    public User getUserById(String id) {
+        if (userRepository.findById(id).isEmpty()){
+            throw new UserNotFoundException(String.format("User with \"%s\" id was not found", id));
+        }
+        return userRepository.findById(id).get();
     }
 
     @Override
@@ -41,21 +48,21 @@ public class UserServiceImpl implements UserService {
                 throw new UserAlreadyExistsException(String.format("User with username \"%s\" is already registered", registeringUser.getUsername()));
             }
         }
-        userRepository.createUser(registeringUser);
+        userRepository.save(registeringUser);
     }
 
-    public void updateUser(Integer id, User user) {
-        userRepository.updateUser(id, user);
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 
-    public void patchUser(Integer id, Map<String, String> partialUser) {
-        User user = userRepository.getUserById(id);
+    public void patchUser(String id, Map<String, String> partialUser) {
+        User user = userRepository.getReferenceById(id);
         userUtil.patchUser(user, partialUser);
-        userRepository.updateUser(id, user);
+        userRepository.save(user);
     }
 
-    public void deleteUser(Integer id) {
-        userRepository.deleteUser(id);
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -80,16 +87,20 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void followUser(String username, String usernameToBeFollowed) {
-        userRepository.followUser(userRepository.getUserByUsername(username).getUserId(), userRepository.getUserByUsername(usernameToBeFollowed).getUserId());
+    public void followUser(String username, User userToBeFollowed) {
+        Follow follow = new Follow();
+        follow.setUser(userRepository.findByUsername(username));
+        follow.setFollowedUser(userToBeFollowed);
+        followedUserRepository.save(follow);
     }
 
     public List<String> getWhoUserFollows(String username) {
-        List<Integer> usersFollowed = userRepository.getWhoUserFollows(userRepository.getUserByUsername(username).getUserId());
+        List<Follow> usersFollowed = followedUserRepository.findByUserId(userRepository.findByUsername(username).getId());
         List<String> getUsersFollowedByUsername = new ArrayList<>();
         usersFollowed.forEach(u -> {
-            getUsersFollowedByUsername.add(getUserById(u).getUsername());
+            getUsersFollowedByUsername.add(u.getFollowedUser().getUsername());
         });
         return getUsersFollowedByUsername;
     }
+
 }

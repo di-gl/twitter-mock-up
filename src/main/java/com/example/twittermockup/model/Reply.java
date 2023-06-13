@@ -10,8 +10,8 @@ import java.time.LocalDate;
 public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private int id;
-    @Column(name = "published_date", columnDefinition = "TIMESTAMP", nullable = false)
+    private String id;
+    @Column(name = "published_date", columnDefinition = "DATE", nullable = false)
     private LocalDate publishedReplyDate;
     @Column(name = "content", nullable = false)
     private String replyContent;
@@ -21,15 +21,16 @@ public class Reply {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User replyAuthor;
-    @Column(name = "is_public", columnDefinition = "boolean default true")
-    private boolean isPublic = true;
 
-    public int getReplyId() {
+    @Column(name = "is_public", columnDefinition = "boolean default true")
+    private boolean isPublic;
+
+    public String getId() {
         return id;
     }
 
-    public void setReplyId(int replyId) {
-        this.id = replyId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDate getPublishedReplyDate() {

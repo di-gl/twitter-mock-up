@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private int id;
+    private String id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "published_date", columnDefinition = "TIMESTAMP", nullable = false)
@@ -21,12 +21,12 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User postAuthor;
 
-    public int getPostId() {
+    public String getId() {
         return id;
     }
 
-    public void setPostId(int postId) {
-        this.id = postId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDateTime getPublishedDate() {

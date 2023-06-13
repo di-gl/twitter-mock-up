@@ -3,12 +3,14 @@ package com.example.twittermockup.model;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private int id;
+    @Column(name = "id", nullable = false)
+    private String id;
     @Column(nullable = false, unique = true)
     private String username;
     @Column(name = "first_name", nullable = false)
@@ -20,12 +22,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public int getUserId() {
+    public String getId() {
         return id;
     }
 
-    public void setUserId(int userId) {
-        this.id = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {

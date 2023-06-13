@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private int id;
+    private String id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "timestamp", columnDefinition = "TIMESTAMP", nullable = false)
@@ -22,12 +22,12 @@ public class Like {
     @JoinColumn(name = "post_id")
     private Post likedPost;
 
-    public int getLikeId() {
+    public String getId() {
         return id;
     }
 
-    public void setLikeId(int likeId) {
-        this.id = likeId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDateTime getTimestamp() {

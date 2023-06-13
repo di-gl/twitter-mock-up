@@ -24,27 +24,27 @@ public class PostServiceImpl implements PostService {
     }
 
     public List<Post> getAllPosts() {
-        return postRepository.getAllPosts();
+        return postRepository.findAll();
     }
 
     public Post getPostById(Integer id) {
-        return postRepository.getPostById(id);
+        return postRepository.getReferenceById(id.toString());
     }
 
     public void registerPost(String username, Post post) {
-        postRepository.createPost(username, post);
+        postRepository.save(post);
     }
 
     public void updatePost(Integer id, Post post) {
-        postRepository.updatePost(id, post);
+        postRepository.save(post);
     }
 
     public void deletePost(Integer id) {
-        postRepository.deletePost(id);
+        postRepository.deleteById(id.toString());
     }
 
     public List<Post> getUserPosts(String username) {
-        List<Post> allPosts = postRepository.getAllPosts();
+        List<Post> allPosts = postRepository.findAll();
         List<Post> userPosts = new ArrayList<>();
         for (Post post : allPosts) {
             if (post.getPostAuthor().getUsername().equals(username)) {
@@ -71,18 +71,22 @@ public class PostServiceImpl implements PostService {
         return userPostsFilteredByTimestamp;
     }
 
+    /*
+
     public List<Post> getUserFeed(String username) {
-        User user = userRepository.getUserByUsername(username);
+        User user = userRepository.findByUsername(username);
         List<Integer> whoUserFollows = userRepository.getWhoUserFollows(user.getUserId());
         List<Post> allPosts = postRepository.getAllPosts();
         List<Post> feedPosts = new ArrayList<>();
         for (Integer userId : whoUserFollows) {
             for (Post post : allPosts) {
-                if (post.getPostAuthor().getUsername().equals(userRepository.getUserById(userId).getUsername())) {
+                if (post.getPostAuthor().getUsername().equals(userRepository.getReferenceById(userId.toString()).getUsername())) {
                     feedPosts.add(post);
                 }
             }
         }
         return feedPosts;
     }
+
+     */
 }

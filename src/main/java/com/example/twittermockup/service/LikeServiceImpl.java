@@ -21,28 +21,28 @@ public class LikeServiceImpl implements LikeService {
     }
 
     public List<Like> getAllLikes() {
-        return likeRepository.getAllLikes();
+        return likeRepository.findAll();
     }
 
     public Like getLikeById(Integer id) {
-        return likeRepository.getLikeById(id);
+        return likeRepository.getReferenceById(id.toString());
     }
 
     public void registerLike(Like like) {
-        likeRepository.createLike(like);
+        likeRepository.save(like);
     }
 
     public void deleteLike(Integer id) {
-        likeRepository.deleteLike(id);
+        likeRepository.deleteById(id.toString());
     }
 
     public void addLike(String username, String userPage, Integer postId, Like postLike) {
-        List<Like> allLikes = likeRepository.getAllLikes();
+        List<Like> allLikes = likeRepository.findAll();
         for (Like like : allLikes) {
-            if (like.getLikeAuthor().getUsername().equals(username) && like.getLikedPost().getPostId() == postId) {
+            if (like.getLikeAuthor().getUsername().equals(username) && like.getLikedPost().getId().equals(postId.toString())) {
                 throw new LikeAlreadyExistsException(String.format("Post was already liked by user \"%s\"", username));
             }
         }
-        likeRepository.createLike(postLike);
+        likeRepository.save(postLike);
     }
 }
